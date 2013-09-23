@@ -53,13 +53,13 @@ shift $(( OPTIND - 1 ))
 # Lets check that we are root
 if [ "$(id -u)" != "0" ]; then
 	echo "Error: This script needs to run as root."
-	exit 1;
+	exit 1
 fi
 
 # Check if zm.conf was supplied as an argument and that it exists
 if [[ -n "$ZM_CONFIG" && ! -f "$ZM_CONFIG" ]]; then
 	echo "The zoneminder configuration file $ZM_CONFIG does not exist!"
-	exit(40);
+	exit 40
 fi
 
 # Load zm.conf
@@ -74,7 +74,7 @@ elif [ -f "/etc/zm.conf"]; then
 	source "/etc/zm.conf"
 else
 	echo "Failed locating zoneminder configuration file (zm.conf)\nUse the -z option to specify the full path to the zoneminder configuration file"
-	exit 45;
+	exit 45
 fi
 
 # Override the web directory path from zm.conf
@@ -98,7 +98,7 @@ if [ -d "$ZM_PATH_WEB" ]; then
 	echo "OK"
 else
 	echo "Failed"
-	exit 3;
+	exit 3
 fi
 
 # Check if the content folder exists, and if not, create it
@@ -113,7 +113,7 @@ else
 		echo "OK"
 	else
 		echo "Failed"
-		exit 4;
+		exit 4
 	fi
 fi
 # Check if the content/images folder exists, and if not, create it
@@ -128,7 +128,7 @@ else
 		echo "OK"
 	else
 		echo "Failed"
-		exit 6;
+		exit 6
 	fi
 fi
 # Check if the content/events folder exists, and if not, create it
@@ -143,7 +143,7 @@ else
 		echo "OK"
 	else
 		echo "Failed"
-		exit 7;
+		exit 7
 	fi
 fi
 
@@ -155,11 +155,11 @@ if [ -d "$ZM_PATH_WEB/images" ]; then
 			echo "OK"
 		else
 			echo "Failed"
-			exit 35;
+			exit 35
 		fi
 	else
 		echo "Existing $ZM_PATH_WEB/images is not a symlink. Aborting to prevent data loss"
-		exit 10;
+		exit 10
 	fi
 fi
 
@@ -171,11 +171,11 @@ if [ -d "$ZM_PATH_WEB/events" ]; then
 			echo "OK"
 		else
 			echo "Failed"
-			exit 36;
+			exit 36
 		fi
 	else
 		echo "Existing $ZM_PATH_WEB/events is not a symlink. Aborting to prevent data loss"
-		exit 11;
+		exit 11
 	fi
 fi
 
@@ -186,7 +186,7 @@ if [ "$?" = "0" ]; then
 	echo "OK"
 else
 	echo "Failed"
-	exit 15;
+	exit 15
 fi
 	
 # Create the symlink for the events folder
@@ -196,7 +196,7 @@ if [ "$?" = "0" ]; then
 	echo "OK"
 else
 	echo "Failed"
-	exit 16;
+	exit 16
 fi
 
 # change ownership for the images folder. do it recursively unless -q is used
@@ -207,7 +207,7 @@ if [ -n "$QUICK" ]; then
 		echo "OK"
 	else
 		echo "Failed"
-		exit 20;
+		exit 20
 	fi
 else
 	echo -n "Changing ownership of the images folder recursively to ${ZM_WEB_USER} ${ZM_WEB_GROUP}... "
@@ -216,7 +216,7 @@ else
 		echo "OK"
 	else
 		echo "Failed"
-		exit 21;
+		exit 21
 	fi
 fi
 
@@ -228,7 +228,7 @@ if [ -n "$QUICK" ]; then
 		echo "OK"
 	else
 		echo "Failed"
-		exit 25;
+		exit 25
 	fi
 else
 	echo -n "Changing ownership of the events folder recursively to ${ZM_WEB_USER} ${ZM_WEB_GROUP}... "
@@ -237,7 +237,7 @@ else
 		echo "OK"
 	else
 		echo "Failed"
-		exit 26;
+		exit 26
 	fi
 fi
 
@@ -248,7 +248,7 @@ if [ "$?" = "0" ]; then
 	echo "OK"
 else
 	echo "Failed"
-	exit 30;
+	exit 30
 fi
 
 
@@ -259,7 +259,7 @@ if [ "$?" = "0" ]; then
 	echo "OK"
 else
 	echo "Failed"
-	exit 31;
+	exit 31
 fi
 
 echo ""
