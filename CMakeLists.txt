@@ -391,7 +391,7 @@ configure_file(zmlinkcontent.sh.in zmlinkcontent.sh @ONLY)
 
 # Run ZM configuration generator
 message(STATUS "Running ZoneMinder configuration generator")
-execute_process(COMMAND perl zmconfgen.pl RESULT_VARIABLE zmconfgen_result)
+execute_process(COMMAND perl ./zmconfgen.pl RESULT_VARIABLE zmconfgen_result)
 if(zmconfgen_result EQUAL 0)
 	message(STATUS "ZoneMinder configuration generator completed successfully")
 else(zmconfgen_result EQUAL 0)
