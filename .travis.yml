@@ -17,7 +17,7 @@ install:  git clone git://source.ffmpeg.org/ffmpeg.git && cd ffmpeg && ./configu
 before_script:
   - cd $TRAVIS_BUILD_DIR
   - mysql -e 'create database zoneminder;'
-script:  CXXFLAGS="$CXXFLAGS" cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_VERBOSE_MAKEFILE=ON -DZM_DB_NAME="zoneminder" -DZM_DB_USER="travis" -DZM_DB_PASS="" && make && make install
+script:  CXXFLAGS="$CXXFLAGS" cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_VERBOSE_MAKEFILE=ON -DZM_DB_NAME="zoneminder" -DZM_DB_USER="travis" -DZM_DB_PASS="" && make && sudo make install
 after_success: 
   - mysql -u travis < db/zm_create.sql
-  - ./zmlinkcontent.sh
+  - sudo ./zmlinkcontent.sh
