@@ -389,6 +389,13 @@ configure_file(zm.conf.in zm.conf @ONLY)
 configure_file(zmconfgen.pl.in zmconfgen.pl @ONLY)
 configure_file(zmlinkcontent.sh.in zmlinkcontent.sh @ONLY)
 
+# Process subdirectories
+add_subdirectory(src)
+add_subdirectory(scripts)
+add_subdirectory(db)
+add_subdirectory(misc)
+add_subdirectory(web)
+
 # Run ZM configuration generator
 message(STATUS "Running ZoneMinder configuration generator")
 execute_process(COMMAND perl ./zmconfgen.pl RESULT_VARIABLE zmconfgen_result)
@@ -397,13 +404,6 @@ if(zmconfgen_result EQUAL 0)
 else(zmconfgen_result EQUAL 0)
 	message(FATAL_ERROR "ZoneMinder configuration generator failed. Exit code: ${zmconfgen_result}")
 endif(zmconfgen_result EQUAL 0)
-
-# Process subdirectories
-add_subdirectory(src)
-add_subdirectory(scripts)
-add_subdirectory(db)
-add_subdirectory(misc)
-add_subdirectory(web)
 
 # Install zm.conf
 install(FILES zm.conf DESTINATION "/${CMAKE_INSTALL_SYSCONFDIR}")
