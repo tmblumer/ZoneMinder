@@ -9,7 +9,7 @@ echo ""
 # Check for too many prameters
 if [[ "$#" -gt "0" && "$#" -ne "1" ]]; then
        echo "Error: Too many parameters!"
-       exit 50;
+       exit 50
 fi
 
 # Check if zm.conf was supplied as an argument and that it exists
@@ -33,7 +33,7 @@ elif [ -f "/etc/zm.conf"]; then
 	source "/etc/zm.conf"
 else
 	echo "Failed locating zoneminder configuration file (zm.conf)\nPlease specify the full path to the zoneminder configuration file"
-	exit 45;
+	exit 45
 fi
 
 # Create the file
