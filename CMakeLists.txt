@@ -84,7 +84,7 @@ include (CheckTypeSize)
 include (CheckStructHasMember)
 
 # Default variables for some configuration options
-mark_as_advanced(FORCE ZM_EXTRA_LIBS ZM_NO_CRASHTRACE)
+mark_as_advanced(FORCE ZM_EXTRA_LIBS ZM_NO_CRASHTRACE CMAKE_INSTALL_FULL_BINDIR)
 set(ZM_RUNDIR "/var/run/zm" CACHE PATH "Location of transient process files, default: /var/run/zm")
 set(ZM_TMPDIR "/tmp/zm" CACHE PATH "Location of temporary files, default: /tmp/zm")
 set(ZM_LOGDIR "/var/log/zm" CACHE PATH "Location of generated log files, default: /var/log/zm")
@@ -104,6 +104,8 @@ set(ZM_WEB_GROUP "" CACHE STRING "The group apache or the local web server runs 
 # Not really needed:
 set(ZM_NO_CRASHTRACE "OFF" CACHE BOOL "Set to ON to skip crash trace code. Useful if zm_signal.cpp fails to compile. default: OFF")
 set(ZM_MYSQL_ENGINE "InnoDB" CACHE STRING "MySQL engine to use with database, default: InnoDB")
+# Only required for cmakecacheimport:
+set(CMAKE_INSTALL_FULL_BINDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}" CACHE PATH "Override default binary directory")
 
 # Required for certain checks to work
 set(CMAKE_EXTRA_INCLUDE_FILES ${CMAKE_EXTRA_INCLUDE_FILES} stdio.h stdlib.h math.h signal.h)
@@ -342,24 +344,16 @@ if(NOT PERLMODULES_FOUND)
 	message(FATAL_ERROR "Not all required perl modules were found on your system")
 endif(NOT PERLMODULES_FOUND)
 
-# Attempt to check which user apache (or other web server) runs on by searching for known users in /etc/passwd
-# At this point we're only checking for apache, www-data and www
+# Attempt to check which user apache (or other web server) runs on by searching for a user beginning with apache or www and then cutting the user from the first matching user line
 if(ZM_WEB_USER STREQUAL "")
-	# Check if apache is running under user apache
-	file(STRINGS "/${CMAKE_INSTALL_SYSCONFDIR}/passwd" userline REGEX "^apache")
-	if(NOT (userline STREQUAL ""))
-		set(ZM_WEB_USER apache)
-	endif(NOT (userline STREQUAL ""))
-	# Check if apache is running under user www-data
-	file(STRINGS "/${CMAKE_INSTALL_SYSCONFDIR}/passwd" userline REGEX "^www-data")
-	if(NOT ("${userline}" STREQUAL ""))
-		set(ZM_WEB_USER www-data)
-	endif(NOT ("${userline}" STREQUAL ""))
-	# Check if apache is running under user www
-	file(STRINGS "/${CMAKE_INSTALL_SYSCONFDIR}/passwd" userline REGEX "^www")
-	if(NOT ("${userline}" STREQUAL ""))
-		set(ZM_WEB_USER www)
-	endif(NOT ("${userline}" STREQUAL ""))
+	# Check for a user matching ^apache and cut the username from the userline in the first match
+	file(STRINGS "/etc/passwd" userline_apache REGEX "^apache")
+	file(STRINGS "/etc/passwd" userline_www REGEX "^www")
+	if(NOT (userline_apache STREQUAL ""))
+		execute_process(COMMAND echo ${userline_apache} COMMAND cut -d: -f1 OUTPUT_VARIABLE ZM_WEB_USER OUTPUT_STRIP_TRAILING_WHITESPACE)
+	elseif(NOT (userline_www STREQUAL ""))
+		execute_process(COMMAND echo ${userline_www} COMMAND cut -d: -f1 OUTPUT_VARIABLE ZM_WEB_USER OUTPUT_STRIP_TRAILING_WHITESPACE)
+	endif(NOT (userline_apache STREQUAL ""))
 	message(STATUS "Detected web server user: ${ZM_WEB_USER}")
 endif(ZM_WEB_USER STREQUAL "")
 # Check if webgroup contains anything. If not, use the web user as the web group
