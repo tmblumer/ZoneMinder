@@ -25,12 +25,12 @@ fi
 if [ -n "$ZM_CONFIG" ]; then
 	echo "Using custom zm.conf $ZM_CONFIG"
 	source "$ZM_CONFIG"
-elif [ -f "zm.conf" ]; then
-	echo "Using local zm.conf"
-	source "zm.conf"
 elif [ -f "/etc/zm.conf"]; then
 	echo "Using system zm.conf"
 	source "/etc/zm.conf"
+elif [ -f "zm.conf" ]; then
+	echo "Using local zm.conf"
+	source "zm.conf"
 else
 	echo "Failed locating zoneminder configuration file (zm.conf)\nPlease specify the full path to the zoneminder configuration file"
 	exit 45
@@ -44,7 +44,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # Print some information
-echo "BIN directory              : $ZM_PATH_BIN"
+echo "Executables directory      : $ZM_PATH_BIN"
 #echo "Libraries directory        : $ZM_PATH_LIB"
 #echo "System config directory    : $ZM_PATH_CONF"
 echo "Web directory              : $ZM_PATH_WEB"

@@ -5,51 +5,9 @@
 # The CMake installation method will require no parameters at all, default should sufficient and reliable.
 # It will be still possible to install ZoneMinder using autotools, they don't conflict with each other. The cmake way is a complete re-write (different syntax) and aims to be identical to the autotools way,
 # by having options using the same name and leaving ZM totally unmodified, while providing exactly the same things that ZM expects (config.h, configuration in *.in files, etc).
-# Configuration can be done in 4 ways:
-# 	1) As a command line parameter, e.g. cmake -DCMAKE_VERBOSE_MAKEFILE=ON .
-# 	2) By editing the cache file CMakeCache.txt (after it has been generated)
-# 	3) Using cmake-gui
-#	4) Providing cmake with an initial cache file with the -C option
 #
-# Possible configuration options: 
-# 	ZM_RUNDIR	Location of transient process files, default: /var/run/zm
-#       ZM_TMPDIR	Location of temporary files, default: /tmp/zm
-#	ZM_LOGDIR 	Location of generated log files, default: /var/log/zm
-#	ZM_WEBDIR	Location of the web files, default: <prefix>/${CMAKE_INSTALL_DATADIR}/zoneminder/www
-#	ZM_CGIDIR	Location of the cgi-bin files, default: <prefix>/${CMAKE_INSTALL_LIBEXECDIR}/zoneminder/cgi-bin
-#	ZM_CONTENTDIR	Location of dynamic content (events and images), default: /var/lib/zoneminder
-#	ZM_DB_HOST	Hostname where ZoneMinder database located, default: localhost
-#	ZM_DB_NAME	Name of ZoneMinder database, default: zm
-#	ZM_DB_USER	Name of ZoneMinder database user, default: zmuser
-#	ZM_DB_PASS	Password of ZoneMinder database user, default: zmpass
-#	ZM_EXTRA_LIBS	A list of optional libraries, separated by space, e.g. libpng
-#	ZM_NO_MMAP	Set to ON to not use mmap shared memory. Shouldn't be enabled unless you experience problems with the shared memory. default: OFF
-#	ZM_WEB_USER	The user apache or the local web server runs on. Leave empty for automatic detection. If that fails, you can use this variable to force")
-#	ZM_WEB_GROUP	The group apache or the local web server runs on, Leave empty to be the same as the web user")
-# Not really needed:
-#	ZM_NO_CRASHTRACE	Set to ON to skip crash trace code. Useful if zm_signal.cpp fails to compile. default: OFF
-#	ZM_MYSQL_ENGINE		MySQL engine to use with database, default: InnoDB
+# For more information and installation, see the INSTALL file
 #
-# For changing the prefix (default /usr/local), please use CMAKE_INSTALL_PREFIX
-# (e.g. -DCMAKE_INSTALL_PREFIX=/usr)
-# CMAKE_INSTALL_PREFIX behaves like --prefix from autoconf
-# Configuration options:
-# *   For changing include search path, use CMAKE_INCLUDE_PATH
-# *   For changing library search path, use CMAKE_LIBRARY_PATH
-# Also see CMAKE_PREFIX_PATH for overriding both and some others.
-#
-# The DESTDIR environment variable is also supported.
-# For more information about DESTDIR, see:
-# *   http://www.gnu.org/prep/standards/html_node/DESTDIR.html
-#
-#
-# To append to the CFLAGS and CXXFLAGS, please use the CFLAGS and CXXFLAGS environment variables (before running cmake)
-# Or use the CMAKE_C_FLAGS and CMAKE_CXX_FLAGS configuration options.
-# To replace the CFLAGS and CXXFLAGS entirely:
-# *   For the Release build type: use CMAKE_C_FLAGS_RELEASE for the CFLAGS and CMAKE_CXX_FLAGS_RELEASE for the CXXFLAGS
-# *   For the Debug build type: use CMAKE_C_FLAGS_DEBUG for the CFLAGS and CMAKE_CXX_FLAGS_DEBUG for the CXXFLAGS
-
-
 cmake_minimum_required (VERSION 2.6)
 project (ZoneMinder)
 # ZoneMinder version
