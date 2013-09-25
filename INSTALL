@@ -52,7 +52,7 @@ Advanced:
 
 Useful configuration options provided by cmake:
 CMAKE_VERBOSE_MAKEFILE - Set this to ON (default OFF) to see what cmake is doing. Very useful for troubleshooting.
-CMAKE_BUILD_TYPE - Set this to Debug (Default Release) to build ZoneMinder with debugging enabled.
+CMAKE_BUILD_TYPE - Set this to Debug (default Release) to build ZoneMinder with debugging enabled.
 CMAKE_INSTALL_PREFIX - Use this to change the prefix (default /usr/local). This option behaves like --prefix from autoconf. Package maintainers will probably want to set this to "/usr".
 CMAKE_INCLUDE_PATH - Use this to change the include search path.
 CMAKE_LIBRARY_PATH - Use this to change the library search path.
@@ -70,8 +70,8 @@ The DESTDIR environment variable is also supported.
 For more information about DESTDIR, see:
 *   http://www.gnu.org/prep/standards/html_node/DESTDIR.html
 
-Basic steps to install ZoneMinder on a fresh system
----------------------------------------------------
+Basic steps for installing ZoneMinder on a fresh system
+-------------------------------------------------------
 1) After installing all the required dependencies, in the project directory, run "cmake [extra options] ."
 This behaves like ./configure. It is also possible to supply configuration options, e.g. cmake -DZM_DB_PASS="mypass" .
 2) Run "make" to compile ZoneMinder
@@ -92,13 +92,15 @@ Basic steps for upgrading ZoneMinder
 You can provide those options in the command line to cmake, e.g. cmake -DZM_DB_PASS="blah" -DZM_WEBDIR="/usr/local/share/zoneminder/www" -DCMAKE_INSTALL_FULL_BINDIR="/usr/bin" .
 Or alternatively, for convenience, use the cmakecacheimport.sh script. This reads a zoneminder configuration file (zm.conf) and creates a cmake initial cache file called zm_conf.cmake, which you can then provide to cmake.
 For example:
-cmakecacheimport.sh /etc/zm.conf
+./cmakecacheimport.sh /etc/zm.conf
 cmake -C zm_conf.cmake [extra options] .
 
 2) Run "make" to compile ZoneMinder
 3) Run "make install" (as root, or use sudo) to install ZoneMinder to your system.
-4) Depending on your configuration: If the DIR_EVENTS and DIR_IMAGES options are set to default (pointing to web directory/events and web directory/images), You will need to update the symlinks in the web directory to the correct folders. E.g. web directory/events should point to the real events directory, and likewise for the images directory.
+4) Depending on your configuration: If the DIR_EVENTS and DIR_IMAGES options are set to default (pointing to web directory/events and web directory/images), You will need to update the symlinks in the web directory to the correct folders. e.g. web directory/events should point to the real events directory, and likewise for the images directory.
 You can use the zmlinkcontent.sh script for this. For example, if /var/lib/zoneminder is the folder that contains the "images" and "events" directories, you can use:
-zmlinkcontent.sh /var/lib/zoneminder
+./zmlinkcontent.sh /var/lib/zoneminder
 By default, the content directory for new installations is /var/lib/zoneminder. This can be overridden in cmake with the ZM_CONTENTDIR option. e.g. cmake -DZM_CONTENTDIR="/some/big/storage/zm" .
+
+5) Run zmupdate.pl to update the database layout to the new version.
 
